@@ -36,8 +36,8 @@ mapping pool_info:
 function initialize:
     input r0 as address.public;
     input r1 as u64.public;
-    call credits.aleo/transfer_public_as_signer mining.aleo r1 into r2;
-    call credits.aleo/bond_public r0 mining.aleo r1 into r3;
+    call credits.aleo/transfer_public_as_signer mining_pool_test_online_v1.aleo r1 into r2;
+    call credits.aleo/bond_public r0 mining_pool_test_online_v1.aleo r1 into r3;
     async initialize self.caller r0 r1 r2 r3 into r4;
     output r4 as mining_pool_test_online_v1.aleo/initialize.future;
 
@@ -75,8 +75,8 @@ finalize set_pool_state:
 function bond_public:
     input r0 as address.public;
     input r1 as u64.public;
-    call credits.aleo/transfer_public_as_signer mining.aleo r1 into r2;
-    call credits.aleo/bond_public r0 mining.aleo r1 into r3;
+    call credits.aleo/transfer_public_as_signer mining_pool_test_online_v1.aleo r1 into r2;
+    call credits.aleo/bond_public r0 mining_pool_test_online_v1.aleo r1 into r3;
     async bond_public self.caller r0 r1 r2 r3 into r4;
     output r4 as mining_pool_test_online_v1.aleo/bond_public.future;
 
@@ -101,7 +101,7 @@ finalize bond_public:
 function unbond_public:
     input r0 as address.public;
     input r1 as u64.public;
-    call credits.aleo/unbond_public mining.aleo r1 into r2;
+    call credits.aleo/unbond_public mining_pool_test_online_v1.aleo r1 into r2;
     async unbond_public self.caller r0 r1 r2 into r3;
     output r3 as mining_pool_test_online_v1.aleo/unbond_public.future;
 
@@ -110,14 +110,14 @@ finalize unbond_public:
     input r1 as address.public;
     input r2 as u64.public;
     input r3 as credits.aleo/unbond_public.future;
-    cast mining.aleo 0u64 into r4 as bond_state;
-    get.or_use credits.aleo/bonded[mining.aleo] r4 into r5;
+    cast mining_pool_test_online_v1.aleo 0u64 into r4 as bond_state;
+    get.or_use credits.aleo/bonded[mining_pool_test_online_v1.aleo] r4 into r5;
     await r3;
     get.or_use admins[r0] false into r6;
     is.eq r0 r1 into r7;
     get bonded[r1] into r8;
     get totals[0u8] into r9;
-    contains credits.aleo/bonded[mining.aleo] into r10;
+    contains credits.aleo/bonded[mining_pool_test_online_v1.aleo] into r10;
     not r10 into r11;
     branch.eq r6 false to end_then_0_0;
     branch.eq r11 false to end_then_1_2;
@@ -197,11 +197,11 @@ finalize transfer_public:
     await r3;
     get admins[r0] into r4;
     assert.eq r4 true;
-    get credits.aleo/account[mining.aleo] into r5;
-    cast mining.aleo 0u64 into r6 as bond_state;
-    get.or_use credits.aleo/bonded[mining.aleo] r6 into r7;
+    get credits.aleo/account[mining_pool_test_online_v1.aleo] into r5;
+    cast mining_pool_test_online_v1.aleo 0u64 into r6 as bond_state;
+    get.or_use credits.aleo/bonded[mining_pool_test_online_v1.aleo] r6 into r7;
     cast 0u64 0u32 into r8 as unbond_state;
-    get.or_use credits.aleo/unbonding[mining.aleo] r8 into r9;
+    get.or_use credits.aleo/unbonding[mining_pool_test_online_v1.aleo] r8 into r9;
     add r5 r7.microcredits into r10;
     add r10 r9.microcredits into r11;
     get.or_use totals[0u8] 0u64 into r12;
@@ -217,7 +217,7 @@ function fallback_unbond_if_removed:
 
 finalize fallback_unbond_if_removed:
     input r0 as address.public;
-    contains credits.aleo/bonded[mining.aleo] into r1;
+    contains credits.aleo/bonded[mining_pool_test_online_v1.aleo] into r1;
     not r1 into r2;
     assert.eq r2 true;
     get bonded[r0] into r3;

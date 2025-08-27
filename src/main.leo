@@ -34,10 +34,10 @@ program mining_pool_test_online_v1.aleo {
     //       The better approach is to hard-code an address that is by default an admin and is allowed to add and remove other admins.
     async transition initialize(public validator_address: address, public initial_stake_amount: u64) -> Future {
         // Transfer credits to the mining pool contract.
-        let f1: Future = credits.aleo/transfer_public_as_signer(mining.aleo, initial_stake_amount);
+        let f1: Future = credits.aleo/transfer_public_as_signer(mining_pool_test_online_v1.aleo, initial_stake_amount);
 
         // Bond the credits to the validator using the mining pool program as the delegator.
-        let f2: Future = credits.aleo/bond_public(validator_address, mining.aleo, initial_stake_amount);
+        let f2: Future = credits.aleo/bond_public(validator_address, mining_pool_test_online_v1.aleo, initial_stake_amount);
 
         return finalize_initialize(self.caller, validator_address, initial_stake_amount, f1, f2);
     }
@@ -97,10 +97,10 @@ program mining_pool_test_online_v1.aleo {
     // This is callable by anyone who wishes to join the mining pool.
     async transition bond_public(public validator_address: address, public stake_amount: u64) -> Future {
         // Transfer credits to the mining pool contract.
-        let f1: Future = credits.aleo/transfer_public_as_signer(mining.aleo, stake_amount);
+        let f1: Future = credits.aleo/transfer_public_as_signer(mining_pool_test_online_v1.aleo, stake_amount);
 
         // Bond the credits into the mining pool.
-        let f2: Future = credits.aleo/bond_public(validator_address, mining.aleo, stake_amount);
+        let f2: Future = credits.aleo/bond_public(validator_address, mining_pool_test_online_v1.aleo, stake_amount);
 
         return finalize_bond_public(self.caller, validator_address, stake_amount, f1, f2);
     }
@@ -136,7 +136,7 @@ program mining_pool_test_online_v1.aleo {
     //       determine how to properly distribute the staking rewards.
     async transition unbond_public(public delegator_address: address, public unbond_amount: u64) -> Future {
         // Unbond the credits from the validator.
-        let f1: Future = credits.aleo/unbond_public(mining.aleo, unbond_amount);
+        let f1: Future = credits.aleo/unbond_public(mining_pool_test_online_v1.aleo, unbond_amount);
 
         return finalize_unbond_public(self.caller, delegator_address, unbond_amount, f1);
     }
@@ -144,11 +144,11 @@ program mining_pool_test_online_v1.aleo {
     async function finalize_unbond_public(public caller: address, public delegator_address: address, public unbond_amount: u64, f1: Future) {
             // Set the default bonded state.
             let default_bond = bond_state {
-                validator: mining.aleo, // Placeholder address, as this is not used in this function.
+                validator: mining_pool_test_online_v1.aleo, // Placeholder address, as this is not used in this function.
                 microcredits: 0u64,
             };
             // Get the amount of microcredits pending unbonding for the mining pool contract before the unbonding call.
-            let program_bonded: bond_state = Mapping::get_or_use(credits.aleo/bonded, mining.aleo, default_bond);
+            let program_bonded: bond_state = Mapping::get_or_use(credits.aleo/bonded, mining_pool_test_online_v1.aleo, default_bond);
             let stake_amount_before_unbonding: u64 = program_bonded.microcredits;
 
             // Await the future.
@@ -165,7 +165,7 @@ program mining_pool_test_online_v1.aleo {
             let total_staked_amount: u64 = Mapping::get(totals, 0u8);
 
             // Determine if the bonded balance for the mining pool still exists.
-            let is_fully_unbonded: bool = !Mapping::contains(credits.aleo/bonded, mining.aleo);
+            let is_fully_unbonded: bool = !Mapping::contains(credits.aleo/bonded, mining_pool_test_online_v1.aleo);
 
             // If the caller is the admin and the stake amount drops below the minimum, ensure that there is no other delegators in the pool
             // Note: Currently, the only the admin that called `initialize` can call this.
@@ -286,15 +286,15 @@ program mining_pool_test_online_v1.aleo {
         assert(is_admin);
 
         // Fetch the remaining public balance of the mining pool contract.
-        let public_balance: u64 = Mapping::get(credits.aleo/account, mining.aleo);
+        let public_balance: u64 = Mapping::get(credits.aleo/account, mining_pool_test_online_v1.aleo);
 
         // Set the default bonded state.
         let default_bond = bond_state {
-            validator: mining.aleo, // Placeholder address, as this is not used in this function.
+            validator: mining_pool_test_online_v1.aleo, // Placeholder address, as this is not used in this function.
             microcredits: 0u64,
         };
         // Get the amount of microcredits pending unbonding for the mining pool contract.
-        let program_bonded: bond_state = Mapping::get_or_use(credits.aleo/bonded, mining.aleo, default_bond);
+        let program_bonded: bond_state = Mapping::get_or_use(credits.aleo/bonded, mining_pool_test_online_v1.aleo, default_bond);
         let program_bonded_amount: u64 = program_bonded.microcredits;
 
         // Set the default unbond state.
@@ -303,7 +303,7 @@ program mining_pool_test_online_v1.aleo {
             height: 0u32,
         };
         // Get the amount of microcredits pending unbonding for the mining pool contract.
-        let program_unbond_state: unbond_state = Mapping::get_or_use(credits.aleo/unbonding, mining.aleo, default_unbond);
+        let program_unbond_state: unbond_state = Mapping::get_or_use(credits.aleo/unbonding, mining_pool_test_online_v1.aleo, default_unbond);
         let program_unbonding_amount: u64 = program_unbond_state.microcredits;
 
         // Calculate the total amount of credits that the mining pool has either in public balance, bonded, or pending unbonding.
@@ -328,7 +328,7 @@ program mining_pool_test_online_v1.aleo {
 
     async function finalize_unbond_if_removed(public delegator_address: address) {
             // Determine if the bonded balance for the mining pool still exists.
-            let is_fully_unbonded: bool = !Mapping::contains(credits.aleo/bonded, mining.aleo);
+            let is_fully_unbonded: bool = !Mapping::contains(credits.aleo/bonded, mining_pool_test_online_v1.aleo);
             // Ensure that this is only callable if the mining pool is fully unbonded from the validator.
             assert(is_fully_unbonded);
 
