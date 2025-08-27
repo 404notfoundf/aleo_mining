@@ -1,5 +1,5 @@
 import credits.aleo;
-program mining.aleo;
+program mining_pool_test_online_v1.aleo;
 
 struct bond_state:
     validator as address;
@@ -39,7 +39,7 @@ function initialize:
     call credits.aleo/transfer_public_as_signer mining.aleo r1 into r2;
     call credits.aleo/bond_public r0 mining.aleo r1 into r3;
     async initialize self.caller r0 r1 r2 r3 into r4;
-    output r4 as mining.aleo/initialize.future;
+    output r4 as mining_pool_test_online_v1.aleo/initialize.future;
 
 finalize initialize:
     input r0 as address.public;
@@ -61,7 +61,7 @@ finalize initialize:
 function set_pool_state:
     input r0 as boolean.public;
     async set_pool_state self.caller r0 into r1;
-    output r1 as mining.aleo/set_pool_state.future;
+    output r1 as mining_pool_test_online_v1.aleo/set_pool_state.future;
 
 finalize set_pool_state:
     input r0 as address.public;
@@ -78,7 +78,7 @@ function bond_public:
     call credits.aleo/transfer_public_as_signer mining.aleo r1 into r2;
     call credits.aleo/bond_public r0 mining.aleo r1 into r3;
     async bond_public self.caller r0 r1 r2 r3 into r4;
-    output r4 as mining.aleo/bond_public.future;
+    output r4 as mining_pool_test_online_v1.aleo/bond_public.future;
 
 finalize bond_public:
     input r0 as address.public;
@@ -103,7 +103,7 @@ function unbond_public:
     input r1 as u64.public;
     call credits.aleo/unbond_public mining.aleo r1 into r2;
     async unbond_public self.caller r0 r1 r2 into r3;
-    output r3 as mining.aleo/unbond_public.future;
+    output r3 as mining_pool_test_online_v1.aleo/unbond_public.future;
 
 finalize unbond_public:
     input r0 as address.public;
@@ -166,7 +166,7 @@ function claim_unbond_public:
     input r1 as u64.public;
     call credits.aleo/transfer_public r0 r1 into r2;
     async claim_unbond_public r0 r1 r2 into r3;
-    output r3 as mining.aleo/claim_unbond_public.future;
+    output r3 as mining_pool_test_online_v1.aleo/claim_unbond_public.future;
 
 finalize claim_unbond_public:
     input r0 as address.public;
@@ -187,7 +187,7 @@ function transfer_public:
     input r1 as u64.public;
     call credits.aleo/transfer_public r0 r1 into r2;
     async transfer_public self.caller r0 r1 r2 into r3;
-    output r3 as mining.aleo/transfer_public.future;
+    output r3 as mining_pool_test_online_v1.aleo/transfer_public.future;
 
 finalize transfer_public:
     input r0 as address.public;
@@ -213,7 +213,7 @@ finalize transfer_public:
 function fallback_unbond_if_removed:
     input r0 as address.public;
     async fallback_unbond_if_removed r0 into r1;
-    output r1 as mining.aleo/fallback_unbond_if_removed.future;
+    output r1 as mining_pool_test_online_v1.aleo/fallback_unbond_if_removed.future;
 
 finalize fallback_unbond_if_removed:
     input r0 as address.public;

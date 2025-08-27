@@ -1,7 +1,7 @@
 import credits.aleo;
 
 // The 'mining' program.
-program mining.aleo {
+program mining_pool_test_online_v1.aleo {
 
     // 定义了poolInfo
     struct PoolInfo {
@@ -12,7 +12,6 @@ program mining.aleo {
 
     // 判断地址是否是admins
     mapping admins: address => bool;
-
 
     // 判断miners质押了多少
     mapping bonded: address => u64;
