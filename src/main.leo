@@ -27,6 +27,11 @@ program mining_pool_test_online_v1.aleo {
     // The validator that the mining pool is currently bonded to.
     mapping pool_info: u8 => PoolInfo;
 
+    // constructor
+    @noupgrade
+    async constructor() {
+    }
+
     // Initializes the admin address that manages the pool contract and start the initial staking process.
     // A minimum of 10,000 credits is required for the initial bond to succeed.
     //

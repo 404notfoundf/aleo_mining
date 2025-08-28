@@ -241,3 +241,6 @@ finalize fallback_unbond_if_removed:
     get.or_use totals[1u8] 0u64 into r12;
     add r12 r3 into r13;
     set r13 into totals[1u8];
+
+constructor:
+    assert.eq edition 0u16;
