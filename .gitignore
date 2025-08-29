@@ -3,3 +3,4 @@
 *.verifier
 outputs/
 .idea/*
+other/

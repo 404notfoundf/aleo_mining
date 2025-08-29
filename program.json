@@ -1,5 +1,5 @@
 {
-  "program": "mining_pool_test_online_v1.aleo",
+  "program": "mining_pool_online_v1_test.aleo",
   "version": "0.1.0",
   "description": "mining for test",
   "license": "MIT",
