@@ -4,4 +4,4 @@
 outputs/
 .idea/*
 other/
-.env_example
+.env
